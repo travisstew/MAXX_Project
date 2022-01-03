@@ -8,6 +8,11 @@ const PORT = process.env.PORT || 3000;
 //static files
 app.use(express.static('public'));
 
+//body parser
+app.use(express.urlencoded({extended:false}));
+app.use(express.json());
+
+
 //routes middleware
 app.use('/', require('./routes/index'))
 
@@ -15,9 +20,7 @@ app.use('/', require('./routes/index'))
 app.engine('handlebars', exphbs.engine());
 app.set('view engine', 'handlebars');
 
-//body parser
-app.use(express.urlencoded({extended:false}));
-app.use(express.json());
+
 
 
 
