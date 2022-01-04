@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
+require('dotenv').config();
+
 
 
 router.get('/', (req,res)=>{
@@ -20,15 +22,15 @@ router.get('/dashboard/:name',(req,res)=>{
 
   const one = axios.get(`https://stock-market-data.p.rapidapi.com/stock/quote?ticker_symbol=${ticker}`,{   headers: {
     "x-rapidapi-host": "stock-market-data.p.rapidapi.com",
-		"x-rapidapi-key": "6e9b83a612msh318d3a758266c94p116d02jsnef30ec6cb68f"
+		"x-rapidapi-key": process.env.STOCK_MARKET
   }})
   const two = axios.get(`https://stock-market-data.p.rapidapi.com/stock/company-info?ticker_symbol=${ticker}`,{   headers: {
     "x-rapidapi-host": "stock-market-data.p.rapidapi.com",
-		"x-rapidapi-key": "6e9b83a612msh318d3a758266c94p116d02jsnef30ec6cb68f"
+		"x-rapidapi-key":  process.env.STOCK_MARKET
   }})
   const three = axios.get(`https://cnbc.p.rapidapi.com/news/list-by-symbol?tickersymbol=${ticker}&page=1&pagesize=15`,{	headers: {
 		"x-rapidapi-host": "cnbc.p.rapidapi.com",
-		"x-rapidapi-key": "00b956d7c8msh458ab8d1c20369dp182f31jsn413e2da1e3e2"
+		"x-rapidapi-key": process.env.CNBC 
 	}})
   
   
