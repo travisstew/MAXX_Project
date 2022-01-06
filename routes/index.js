@@ -5,10 +5,37 @@ require('dotenv').config();
 
 
 
-router.get('/', (req,res)=>{
-  res.render('home', {style:"/css/custom_styles.css", 
-                       style2:  "/css/styles.css"
+router.get('/', (req,resp)=>{
+
+  axios.get(`https://cnbc.p.rapidapi.com/news/list-by-symbol?tickersymbol=TSLA&page=1&pagesize=15`,{	headers: {
+		"x-rapidapi-host": "cnbc.p.rapidapi.com",
+		"x-rapidapi-key": process.env.CNBC 
+	}}).then(res=>{
+
+
+     const articles = res.data.rss.channel.item.slice(0,3)
+
+    // console.log(res.data.rss.channel.item[0].title);
+    //.title 
+    //.description
+    //.link
+    // console.log(items[0].title);
+
+    resp.render('home', {style:"/css/custom_styles.css", 
+                        style2:  "/css/styles.css",
+                        items: articles
                         });
+
+  })
+
+
+
+
+
+
+
+
+
 });
 
 router.get('/dashboard', (req,res)=>{
@@ -43,6 +70,8 @@ router.get('/dashboard/:name',(req,res)=>{
               price: response[0].data.quote['Current Price'],
               name: response[0].data.quote["Company Name"],
               profile:response[1].data.company_profile.Description,
+              sector: response[1].data.company_profile.Sector,
+              industry: response[1].data.company_profile.Industry,
               
             }
         },)
@@ -86,24 +115,23 @@ router.post('/stock', (req,res)=>{
 
 router.get('/routes', (req,res)=>{
  
-const one = axios.get("https://twelve-data1.p.rapidapi.com/quote?symbol=AMZN&interval=1day",{   headers: {
-  'x-rapidapi-host': 'twelve-data1.p.rapidapi.com',
-  'x-rapidapi-key': '00b956d7c8msh458ab8d1c20369dp182f31jsn413e2da1e3e2'
-}})
-const two = axios.get("https://twelve-data1.p.rapidapi.com/profile?symbol=AAPL",{   headers: {
-  'x-rapidapi-host': 'twelve-data1.p.rapidapi.com',
-  'x-rapidapi-key': '00b956d7c8msh458ab8d1c20369dp182f31jsn413e2da1e3e2'
-}})
+  axios.get(`https://cnbc.p.rapidapi.com/news/list-by-symbol?tickersymbol=TSLA&page=1&pagesize=15`,{	headers: {
+		"x-rapidapi-host": "cnbc.p.rapidapi.com",
+		"x-rapidapi-key": process.env.CNBC 
+	}}).then(res=>{
 
+    // var data = [];
 
-axios.all([one,two]).then(axios.spread((...res)=>{
-  console.log(res[0].data);
-  console.log(res[1].data);
-}))
+     const items = res.data.rss.channel.item.slice(0,3)
 
+    // console.log(res.data.rss.channel.item[0].title);
+    //.title 
+    //.description
+    //.link
+    console.log(items[0].title);
+  })
 
   res.end();
-
 
 
 });
