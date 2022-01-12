@@ -13,13 +13,7 @@ router.get('/', (req,resp)=>{
 	}}).then(res=>{
 
 
-     const articles = res.data.rss.channel.item.slice(0,3)
-
-    // console.log(res.data.rss.channel.item[0].title);
-    //.title 
-    //.description
-    //.link
-    // console.log(items[0].title);
+     const articles = res.data.rss.channel.item.slice(0,3);
 
     resp.render('home', {style:"/css/custom_styles.css", 
                         style2:  "/css/styles.css",
@@ -78,30 +72,6 @@ router.get('/dashboard/:name',(req,res)=>{
   }))
 
 
-
-//   var options = {
-//     method: 'GET',
-//     url: 'https://stock-market-data.p.rapidapi.com/stock/quote',
-//     params: {ticker_symbol: `${ticker}`},
-//     headers: {
-//       'x-rapidapi-host': 'stock-market-data.p.rapidapi.com',
-//       'x-rapidapi-key': '00b956d7c8msh458ab8d1c20369dp182f31jsn413e2da1e3e2'
-//     }
-//   };
-  
-
-//   axios.request(options).then(function (response) {
-
-//     res.render('dashboard',  {js:"/js/dashboard.js", css:"/css/dashboard.css", data:{
-//         price: response.data.quote['Current Price'],
-//         name: response.data.quote["Company Name"]
-//       }
-//   },)
-// }).catch(function (error) {
-//     console.error(error);
-//   });
-
-
 });
 
 router.post('/stock', (req,res)=>{
@@ -113,27 +83,10 @@ router.post('/stock', (req,res)=>{
  
 });
 
-router.get('/routes', (req,res)=>{
- 
-  axios.get(`https://cnbc.p.rapidapi.com/news/list-by-symbol?tickersymbol=TSLA&page=1&pagesize=15`,{	headers: {
-		"x-rapidapi-host": "cnbc.p.rapidapi.com",
-		"x-rapidapi-key": process.env.CNBC 
-	}}).then(res=>{
-
-    // var data = [];
-
-     const items = res.data.rss.channel.item.slice(0,3)
-
-    // console.log(res.data.rss.channel.item[0].title);
-    //.title 
-    //.description
-    //.link
-    console.log(items[0].title);
-  })
-
-  res.end();
 
 
+router.get('*', (req,res)=>{
+    res.redirect('/')
 });
 
 module.exports = router;
