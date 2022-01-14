@@ -6,19 +6,22 @@ require('dotenv').config();
 
 
 router.get('/', (req,resp)=>{
-
-  axios.get(`https://cnbc.p.rapidapi.com/news/list-by-symbol?tickersymbol=TSLA&page=1&pagesize=15`,{	headers: {
+    resp.render('home', {style:"/css/custom_styles.css", 
+                           style2:  "/css/styles.css",
+                     
+                          })
+  axios.get(`https://cnbc.p.rapidapi.com/news/v2/list-trending?tag=Articles&count=10`,{	headers: {
 		"x-rapidapi-host": "cnbc.p.rapidapi.com",
 		"x-rapidapi-key": process.env.CNBC 
 	}}).then(res=>{
+      console.log(res.data.data.mostPopularEntries.assets[0].id);
 
+    //  const articles = res.data.rss.channel.item.slice(0,3);
 
-     const articles = res.data.rss.channel.item.slice(0,3);
-
-    resp.render('home', {style:"/css/custom_styles.css", 
-                        style2:  "/css/styles.css",
-                        items: articles
-                        });
+    // resp.render('home', {style:"/css/custom_styles.css", 
+    //                     style2:  "/css/styles.css",
+    //                     items: articles
+    //                     });
 
   })
 
@@ -33,9 +36,11 @@ router.get('/', (req,resp)=>{
 });
 
 router.get('/dashboard', (req,res)=>{
-   res.render('dashboard', {js:"/js/dashboard.js", css:"/css/dashboard.css"});
-
+   res.render('dashboard',
+    {js:"/js/dashboard.js", css:"/css/dashboard.css", data:{placeHolder:'Enter Ticker'}});
+  
 });
+
 router.get('/dashboard/:name',(req,res)=>{
   // console.log(req.params);
   const ticker = req.params.name;
@@ -66,6 +71,7 @@ router.get('/dashboard/:name',(req,res)=>{
               profile:response[1].data.company_profile.Description,
               sector: response[1].data.company_profile.Sector,
               industry: response[1].data.company_profile.Industry,
+              placeHolder:'Enter Ticker'
               
             }
         },)
@@ -74,19 +80,10 @@ router.get('/dashboard/:name',(req,res)=>{
 
 });
 
-router.post('/stock', (req,res)=>{
-  console.log(req.body);
-  // console.log(res);
-  res.json({dog:'hello'});
-  // res.send('hello')
-  res.end();
- 
-});
-
 
 
 router.get('*', (req,res)=>{
-    res.redirect('/')
+    res.redirect('/');
 });
 
 module.exports = router;

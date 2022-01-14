@@ -240,7 +240,8 @@ sup {
 }
 
 a {
- color: #858796;;
+ /* color: #858796; */
+ color: black;
  text-decoration: none;
 }
 a:hover {
