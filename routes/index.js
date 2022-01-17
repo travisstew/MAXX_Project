@@ -11,11 +11,9 @@ router.get('/', (req,resp)=>{
 		"x-rapidapi-host": "cnbc.p.rapidapi.com",
 		"x-rapidapi-key": process.env.CNBC 
 	}}).then(res=>{
-      // console.log(res.data.data.mostPopularEntries.assets[0].id);
-      const articles = res.data.data.mostPopularEntries.assets.slice(0,3);
-      console.log(articles[0].headline);
-    //  const articles = res.data.rss.channel.item.slice(0,3);
 
+    const articles = res.data.data.mostPopularEntries.assets.slice(0,3);
+    
     resp.render('home', {style:"/css/custom_styles.css", 
                         style2:  "/css/styles.css",
                         items: articles
@@ -66,10 +64,12 @@ router.get('/dashboard/:name',(req,res)=>{
     res.render('dashboard', {js:"/js/dashboard.js", css:"/css/dashboard.css", data:{
               price: response[0].data.quote['Current Price'],
               name: response[0].data.quote["Company Name"],
+              high: response[0].data.quote["Today's High"],
               profile:response[1].data.company_profile.Description,
               sector: response[1].data.company_profile.Sector,
               industry: response[1].data.company_profile.Industry,
-              placeHolder:'Enter Ticker'
+              placeHolder:'Enter Ticker',
+              
               
             }
         },)
@@ -77,8 +77,6 @@ router.get('/dashboard/:name',(req,res)=>{
 
 
 });
-
-
 
 router.get('*', (req,res)=>{
     res.redirect('/');
