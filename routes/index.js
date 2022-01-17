@@ -6,22 +6,20 @@ require('dotenv').config();
 
 
 router.get('/', (req,resp)=>{
-    resp.render('home', {style:"/css/custom_styles.css", 
-                           style2:  "/css/styles.css",
-                     
-                          })
+
   axios.get(`https://cnbc.p.rapidapi.com/news/v2/list-trending?tag=Articles&count=10`,{	headers: {
 		"x-rapidapi-host": "cnbc.p.rapidapi.com",
 		"x-rapidapi-key": process.env.CNBC 
 	}}).then(res=>{
-      console.log(res.data.data.mostPopularEntries.assets[0].id);
-
+      // console.log(res.data.data.mostPopularEntries.assets[0].id);
+      const articles = res.data.data.mostPopularEntries.assets.slice(0,3);
+      console.log(articles[0].headline);
     //  const articles = res.data.rss.channel.item.slice(0,3);
 
-    // resp.render('home', {style:"/css/custom_styles.css", 
-    //                     style2:  "/css/styles.css",
-    //                     items: articles
-    //                     });
+    resp.render('home', {style:"/css/custom_styles.css", 
+                        style2:  "/css/styles.css",
+                        items: articles
+                        });
 
   })
 
