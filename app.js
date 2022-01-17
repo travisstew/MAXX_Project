@@ -13,8 +13,8 @@ app.use(express.urlencoded({extended:false}));
 app.use(express.json());
 
 
-//routes middleware
-app.use('/', require('./routes/index'))
+//routes 
+app.use('/', require('./routes/index'));
 
 //template engine
 app.engine('handlebars', exphbs.engine());

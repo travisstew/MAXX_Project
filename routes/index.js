@@ -22,13 +22,6 @@ router.get('/', (req,resp)=>{
   })
 
 
-
-
-
-
-
-
-
 });
 
 router.get('/dashboard', (req,res)=>{
@@ -65,6 +58,7 @@ router.get('/dashboard/:name',(req,res)=>{
               price: response[0].data.quote['Current Price'],
               name: response[0].data.quote["Company Name"],
               high: response[0].data.quote["Today's High"],
+              open: response[0].data.quote["Today's Open"],
               profile:response[1].data.company_profile.Description,
               sector: response[1].data.company_profile.Sector,
               industry: response[1].data.company_profile.Industry,
