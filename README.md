@@ -4,7 +4,7 @@
 
 
 
-- Preview http://stock-max.herokuapp.com/dashboard/hca
+- Preview http://stock-max.herokuapp.com
 
 
 
